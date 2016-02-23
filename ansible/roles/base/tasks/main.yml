@@ -1,0 +1,59 @@
+---
+
+- name: install python-selinux(development only)
+  yum: name=libselinux-python state=latest
+  when: env == "development"
+
+- name: disable selinux(development only)
+  selinux: state=disabled
+  when: env == "development"
+
+- name: add host to hosts
+  become: yes
+  command: echo "127.0.0.1 {{ host }}" >> /etc/hosts
+
+- name: set timezone to Asia/Tokyo
+  sudo: yes
+  file: src=/usr/share/zoneinfo/Japan dest=/etc/localtime state=file
+
+- name: set clock to Asia/Tokyo
+  sudo: yes
+  replace: dest=/etc/sysconfig/clock regexp='"UTC"' replace='"Asia/Tokyo"'
+
+- name: groupinstall Tools
+  become: yes
+  yum: name="{{ item }}" state=present
+  with_items:
+    - "@Base"
+    - "@Development tools"
+    - "@Japanese Support"
+
+- name: install libraries
+  become: yes
+  yum: name={{ item }} state=installed
+  with_items:
+    - libxml2-devel
+    - openssl-devel
+
+- name: setup epel repository
+  become: yes
+  yum: name=http://ftp-srv2.kddilabs.jp/Linux/distributions/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm
+
+- name: configuration epel repository
+  become: yes
+  replace: dest=/etc/yum.repos.d/{{ item }} regexp="enabled *= *1" replace="enabled=0"
+  with_items:
+    - epel.repo
+
+- name: install libmcrypt libraries
+  become: yes
+  yum: name={{ item }} state=installed enablerepo=epel
+  with_items:
+    - libmcrypt
+
+- name: create directory
+  become: yes
+  file: path=/var/www state=directory owner=root group=root mode=0755
+
+- name: create link
+  file: src=/vagrant/src dest=/var/www/api state=link mode=0755

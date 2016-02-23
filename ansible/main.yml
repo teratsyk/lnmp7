@@ -1,0 +1,17 @@
+---
+
+- name: Host Configlation
+  # hosts: "{{ target_host }}"
+  hosts: "development"
+  become: yes
+  roles:
+    - base
+    - nginx
+    - php
+    - mysql
+
+  # vars_prompt:
+  # - name: "target_host"
+  #   prompt: "Please enter target_host [development, staging, production]"
+  #   private: no
+  #   default: "development"

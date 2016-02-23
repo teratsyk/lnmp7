@@ -1,0 +1,17 @@
+---
+
+- name: create database
+  mysql_db: name={{ item }} state=present encoding=utf8
+  with_items: dbname
+
+- name: create database user grant localhost
+  sudo: no
+  command: mysql -u root -e "grant all privileges on *.* TO '{{ dbuser }}'@'localhost' identified by '{{ dbpassword }}' with grant option"
+
+- name: create database user grant otherhost
+  sudo: no
+  command: mysql -u root -e "grant all privileges on *.* TO '{{ dbuser }}'@'%' identified by '{{ dbpassword }}' with grant option"
+
+- name: create database user flush privileges
+  sudo: no
+  command: mysql -u root -e "flush privileges"

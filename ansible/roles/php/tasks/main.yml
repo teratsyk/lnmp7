@@ -1,0 +1,32 @@
+---
+
+- name: remove old package
+  yum: name={{ item }} state=absent
+  with_items:
+    - httpd*
+    - php*
+
+- name: setup remi repository
+  become: yes
+  yum: name=http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+
+- name: install php
+  become: yes
+  yum: name={{ item }} state=installed enablerepo=epel,remi,remi-php70
+  with_items: php
+
+- name: php reconfigure php.ini
+  become: yes
+  template: src=php.ini dest=/etc/php.ini owner=root group=root mode=0644
+
+- name: opcache reconfigure opcache.ini
+  become: yes
+  template: src=opcache.ini dest=/etc/php.d/opcache.ini owner=root group=root mode=0644
+
+- name: php-fpm reconfigure www.conf
+  become: yes
+  template: src=www.conf dest=/etc/php-fpm.d/www.conf owner=root group=root mode=0644
+
+- name: php-fpm restart and enable
+  become: yes
+  service: name=php-fpm state=restarted enabled=yes

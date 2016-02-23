@@ -1,0 +1,4 @@
+ansible.log
+.DS_Store
+.vagrant
+src

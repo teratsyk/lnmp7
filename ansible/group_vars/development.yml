@@ -1,0 +1,21 @@
+---
+
+host: api.localhost
+env: development
+php:
+  - php
+  - php-common
+  - php-cli
+  - php-devel
+  - php-mbstring
+  - php-xml
+  - php-mysqlnd
+  - php-pdo
+  - php-fpm
+  - php-mcrypt
+  - php-opcache
+  - php-pecl-xdebug
+dbname:
+  - api
+dbuser: api
+dbpassword: api123
