@@ -56,4 +56,4 @@
   file: path=/var/www state=directory owner=root group=root mode=0755
 
 - name: create link
-  file: src=/vagrant/src dest=/var/www/api state=link mode=0755
+  file: src=/vagrant/src/api_v1/api_sample dest=/var/www/api_v1 state=link mode=0755
