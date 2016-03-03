@@ -1,3 +1,4 @@
 ---
 
 app_root: /var/www
+app_name: api_sample
