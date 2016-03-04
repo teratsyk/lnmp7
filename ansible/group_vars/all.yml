@@ -1,4 +1,4 @@
 ---
 
 app_root: /var/www
-app_name: api_sample
+app_name: lumen_sample/api_sample

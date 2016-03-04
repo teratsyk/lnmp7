@@ -34,6 +34,7 @@
   with_items:
     - libxml2-devel
     - openssl-devel
+    - zlib-devel
 
 - name: setup epel repository
   become: yes
@@ -56,4 +57,4 @@
   file: path=/var/www state=directory owner=root group=root mode=0755
 
 - name: create link
-  file: src=/vagrant/src/api/{{ app_name }} dest=/var/www/api state=link mode=0755
+  file: src=/vagrant/src/{{ app_name }} dest=/var/www/api state=link mode=0755

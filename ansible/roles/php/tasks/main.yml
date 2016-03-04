@@ -21,7 +21,7 @@
 
 - name: opcache reconfigure opcache.ini
   become: yes
-  template: src=opcache.ini dest=/etc/php.d/opcache.ini owner=root group=root mode=0644
+  template: src=10-opcache.ini dest=/etc/php.d/10-opcache.ini owner=root group=root mode=0644
 
 - name: php-fpm reconfigure www.conf
   become: yes
